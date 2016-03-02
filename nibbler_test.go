@@ -11,10 +11,23 @@ type example struct {
 var examples = []example{
 	example{"woo", false, "woo"},
 	example{"woo@woot.com", true, "woo@woot.com"},
+	example{"hoot@hoot-hoot.com", true, "hoot@hoot-hoot.com"},
 	example{"woo/+@blah.com", true, "woo/+@blah.com"},
 	example{"#!$%&'*+-/=?^_`{}|~@example.org", true, "#!$%&'*+-/=?^_`{}|~@example.org"},
+	example{"üñîçøðé@üñîçøðéı.com", true, "üñîçøðé@üñîçøðéı.com"},
 	example{"\"Bob\" <bobthebuilder@dlc.com>", false, "\"Bob\""},
-	// example{"bobthebuilder@176.2.0.234", false, "bobthebuilder@176.2.0.234"},
+	example{"really.long.but.vaild.address@example.com", true, "really.long.but.vaild.address@example.com"},
+	example{"johndoe@example.co.uk", true, "johndoe@example.co.uk"},
+	example{"Bob bobthebuilder@dlc.com", false, "Bob"},
+	example{"A@b@c@example.com", false, "A@b"},
+	example{"a\"b(c)d,e:f;g<h>i[j\\k]l@example.com", false, "a"},
+	example{"[j\\k]l@example.com", false, ""},
+	example{"john..doe@example.com", false, "john."},
+	example{"john......doe@example.com", false, "john."},
+	example{"john.doe@example..com", false, "john.doe@example."},
+	example{"john.doe@exam_ple.com", false, "john.doe@exam"},
+	example{" johndoe@example.com", false, ""},
+	example{"johndoe@example.com ", false, "johndoe@example.com"},
 }
 
 func TestNibbler(t *testing.T) {
